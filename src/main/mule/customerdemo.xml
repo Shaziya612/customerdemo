@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="4e631ae9-fdcd-4c43-83c0-ae646818e22b" >
+		<http:listener-connection host="0.0.0.0" port="8084" />
+	</http:listener-config>
+	<flow name="customerdemoFlow" doc:id="3a6f24f0-1d0f-4311-885b-792d5ce23f9b" >
+		<http:listener doc:name="Listener" doc:id="9793d02d-7f32-43ec-b334-aae20b170144" config-ref="HTTP_Listener_config" path="/customer"/>
+		<set-variable value='#[{&#10;	"Entity": {&#10;		"dueDiligenceDemographics": {&#10;			"custNbr": "123456",&#10;			"custType": "I",&#10;			"lstMaintOper": "T313023",&#10;			"lstMaintDte": "2018-03-16",&#10;			"usrDefFld1": "N",&#10;			"usrDefFld2": "N",&#10;			"usrDefFld3": "N",&#10;			"usrDefFld4": "N",&#10;			"usrDefFld5": "N",&#10;			"usrDefFld6": "N",&#10;			"usrDefFld7": "N",&#10;			"cntryCtznshp": "USA",&#10;			"rsdntPrsn": "Y",&#10;			"occpnDesc": "HOUSEWIFE"&#10;		},&#10;		"incomingCountriesLst": [],&#10;		"outgoingCountriesLst": []&#10;	},&#10;	"Metadata": {&#10;		"MsgLst": [&#10;			{&#10;				"Code": "0",&#10;				"Text": "Success",&#10;				"Type": "Informational Message",&#10;				"Severity": "Info"&#10;			}&#10;		]&#10;	}&#10;}]' doc:name="Set Variable" doc:id="541ac172-2312-424d-9516-e4096302e530" variableName="set "/>
+		<ee:transform doc:name="Transform Message" doc:id="4f7bbfa3-ff74-495f-9ff1-b53bf983f881">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "profile": {
+    "partyType": "Individual",
+    "id": "123456",
+    "firstName": "DEBBIE",
+    "lastName": "DUCK",
+    "personName": "DEBBIE DUCK",
+    "middleName": "D",
+    "nameSuffix": null,
+    "birthDate": "1960-11-08",
+    "customerSince": "2018-03-16",
+    "costCenterNumber": "1110",
+    "branchNumber": "1",
+    "taxIdentificationCode": "S",
+    "taxIdentificationNumber": "222713608",
+    "restrictionCode": "000",
+    "primaryOfficerNumber": "06500",
+    "secondaryOfficerNumber": "24500",
+    "currentEmployerName": "HOUSEWIFE",
+    "customerCode": null,
+    "occupationType": "HOUSEWIFE",
+    "deathDate": "",
+    "contactPoints": [
+      {
+        "contactPointType": [
+          "ContactPointAddress"
+        ],
+        "id": null,
+        "activeFromDate": null,
+        "addressLine1": "123 CENTER ST",
+        "addressLine2": null,
+        "cityName": "WEST LAF",
+        "postalCodeText": "43845",
+        "stateProvinceName": "OH",
+        "countryName": "USA"
+      },
+      {
+        "contactPointType": [
+          "ContactPointPhone"
+        ],
+        "id": null,
+        "activeFromDate": null,
+        "primaryFlag": true,
+        "telephoneNumber": "7407407777"
+      },
+      {
+        "contactPointType": [
+          "ContactPointPhone"
+        ],
+        "id": null,
+        "activeFromDate": null,
+        "primaryFlag": false,
+        "telephoneNumber": "3216540987"
+      },
+      {
+        "contactPointType": [
+          "ContactPointPhone"
+        ],
+        "id": null,
+        "activeFromDate": null,
+        "primaryFlag": false,
+        "telephoneNumber": ""
+      }
+    ],
+    "PartyIdentification": {
+      "partyIdentificationType": "001",
+      "identificationNumber": "RR123555",
+      "issuedByAuthority": null,
+      "issuedAtLocation": "OH",
+      "expiryDate": "2021-12-31"
+    }
+  },
+  "accounts": [
+    {
+      "id": "Core-DP-01234567890",
+      "depositAccountType": "SAVINGS",
+      "accountType": "DepositAccount",
+      "name": "12 Month PBA CD",
+      "accountNumber": "01234567890",
+      "primaryAccountOwner": "123456",
+      "primaryAccountOwnerRelationshipRole": null,
+      "productTypeCode": "DC_060",
+      "branchNumber": 1,
+      "openedDate": "2018-03-16",
+      "closedDate": null,
+      "stage": "Active",
+      "status": null,
+      "primaryOfficerNumber": "06500",
+      "secondaryOfficerNumber": "06500",
+      "accountBalance": 12002.56,
+      "totalHoldAmount": 0.0,
+      "accuredInterest": 127.034229604,
+      "currentInterestRate": 1.250,
+      "lastContactDate": "2018-03-16",
+      "contactPoints": [
+        {
+          "contactPointType": [
+            "ContactPointAddress"
+          ],
+          "id": null,
+          "activeFromDate": null,
+          "addressLine1": "801 BANK LN",
+          "cityName": "NEW MARTINSVILLE",
+          "postalCodeText": "26155",
+          "stateProvinceName": "WV"
+        },
+        {
+          "contactPointType": [
+            "ContactPointPhone"
+          ],
+          "id": null,
+          "activeFromDate": null,
+          "primaryFlag": true,
+          "telephoneNumber": 3044556969
+        },
+        {
+          "contactPointType": [
+            "ContactPointPhone"
+          ],
+          "id": null,
+          "activeFromDate": null,
+          "primaryFlag": false,
+          "telephoneNumber": 1234567890
+        }
+      ],
+      "analysisTypeCode": 0,
+      "nextMaturityDate": "2027-09-16",
+      "costCenterNumber": 1110,
+      "interestPaidYearTodate": 140.70,
+      "NSFAmountYearToDate": "0000000",
+      "originalBalance": 1000.00,
+      "maturityTermCount": "012",
+      "maturityTermCode": "M",
+      "isElectronicStatementDelivery": false,
+      "lastTransactionDate": "2018-03-16",
+      "closureReason": ""
+    }
+  ]
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<ee:transform doc:name="Transform Message" doc:id="b34db09a-4746-42b0-b3d5-7bf8c1964e08" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+import * from dw::core::Strings
+import dwl::commonFunctions
+
+output application/json
+
+var dynamicProfile = payload.Entity.customersDynamicProfile
+var firstName = dynamicProfile.ciCurFrstNmeKeyFld2
+var middleName = dynamicProfile.ciCurMidNmeKeyFld3
+var lastName = dynamicProfile.ciCurLstNmeKeyFld1
+var suffix = dynamicProfile.custSuffix
+var fullName =  if(!isEmpty(suffix)) trim(dynamicProfile.ciCurStdNme01 remove suffix) else trim(dynamicProfile.ciCurStdNme01)
+var last=if(!isEmpty(lastName)) (if(fullName contains lastName) fullName[(fullName indexOf(lastName)) to -1] else null) else null
+var bussinessCodes =[ '001','002','003','004','005','006','007','008','009','010','011','012']
+var entityType = if((dynamicProfile.ciCustTaxCde=="F") or !isEmpty(dynamicProfile.ciTypOfBusCde ) ) "Organization" else "Individual"
+var personName= if(!isEmpty(firstName) and !isEmpty(lastName)) (firstName++ " " ++ lastName) else if (!isEmpty(firstName)) firstName else lastName
+var addresscode=["ciCurStdAddr1","ciCurStdAddr2","ciCurStdAddr3","ciCurStdAddr4","ciCurStdAddr5"]
+fun concatIfS(addressCode, addressTxt) = if(addressCode=="S" and !isEmpty(addressTxt)) (addressTxt ++ ",") else ''
+fun concatIfA(addressCode, addressTxt) = if(addressCode=="A" and !isEmpty(addressTxt)) (addressTxt ++ ",") else ''
+var occupationCode = vars.occupationCodes.Entity.dueDiligenceDemographics.occpnDesc default ''
+fun City(nameAddress)= ((trim(nameAddress) splitBy  " ")[0 to -3]) joinBy(" ")
+fun state(nameAddress)= (trim(nameAddress) splitBy  " ")[-2]
+fun postal(nameAddress)=(trim(nameAddress) splitBy  " ")[-1]
+fun extractAddress(customer)=
+customer map((customerAccount) ->
+{
+addressline: (if(!isEmpty(customerAccount.dpNmeAndAddrLne5)) customerAccount.dpNmeAndAddrLne4 else if(!isEmpty(customerAccount.dpNmeAndAddrLne4)) customerAccount.dpNmeAndAddrLne3 else if(!isEmpty(customerAccount.dpNmeAndAddrLne3)) customerAccount.dpNmeAndAddrLne2 else if(!isEmpty(customerAccount.dpNmeAndAddrLne2)) customerAccount.dpNmeAndAddrLne1 else null),
+city:(if(!isEmpty(customerAccount.dpNmeAndAddrLne5)) City(customerAccount.dpNmeAndAddrLne5) else if(!isEmpty(customerAccount.dpNmeAndAddrLne4)) City(customerAccount.dpNmeAndAddrLne4) else if(!isEmpty(customerAccount.dpNmeAndAddrLne3)) City(customerAccount.dpNmeAndAddrLne3) else if(!isEmpty(customerAccount.dpNmeAndAddrLne2)) City(customerAccount.dpNmeAndAddrLne2) else null),
+state: if(!isEmpty(customerAccount.depositAccountAddressLst[0].dpNmeAndAddrLne5)) state(customerAccount.dpNmeAndAddrLne5) else if(!isEmpty(customerAccount.dpNmeAndAddrLne4)) state(customerAccount.dpNmeAndAddrLne4) else if(!isEmpty(customerAccount.dpNmeAndAddrLne3)) state(customerAccount.dpNmeAndAddrLne3) else if(!isEmpty(customerAccount.dpNmeAndAddrLne2)) state(customerAccount.dpNmeAndAddrLne2) else null,
+postalCode: if(!isEmpty(customerAccount.dpNmeAndAddrLne5)) postal(customerAccount.dpNmeAndAddrLne5) else if(!isEmpty(customerAccount.dpNmeAndAddrLne4)) postal(customerAccount.dpNmeAndAddrLne4) else if(!isEmpty(customerAccount.dpNmeAndAddrLne3)) postal(customerAccount.dpNmeAndAddrLne3) else if(!isEmpty(customerAccount.dpNmeAndAddrLne2)) postal(customerAccount.dpNmeAndAddrLne2) else null,
+homePhone: customerAccount.dpNmeAndAddrHmPh,
+bussinessPhone: customerAccount.dpNmeAndAddrBusPh
+})
+
+fun format_zip(val) = 
+	if( !isEmpty(val) and sizeOf(val) > 5 and not contains(val, "-")  ) val[0 to 4] ++ '-' ++ val[5 to -1]
+	else val
+---
+ {
+    "profile":{
+    	"partyType": entityType,
+    	("name": dynamicProfile.ciCurStdNme01) if( entityType == 'Organization'),
+        "id": commonFunctions::checkNull(dynamicProfile.applNbr),
+        ("firstName": firstName)if( entityType == 'Individual'),
+        ("lastName": last) if( entityType == 'Individual'),
+        ("personName": personName)if( entityType == 'Individual'),
+        ("middleName": middleName)if( entityType == 'Individual'),
+        ("nameSuffix": suffix)if( entityType == 'Individual'),
+        ("birthDate": dynamicProfile.ciBirthdate)if( entityType == 'Individual'),
+        "customerSince": dynamicProfile.ciSncDte,
+        "costCenterNumber": commonFunctions::checkNull(dynamicProfile.ciCstCntrNbr),
+        "branchNumber":  commonFunctions::checkNull(dynamicProfile.ciBrnchNbr) ,
+        ("businessTypeCode":if(bussinessCodes contains dynamicProfile.ciTypOfBusCde ) dynamicProfile.ciTypOfBusCde else null)if(entityType == 'Organization'),
+        ("naicsCode":if(!isEmpty(dynamicProfile.ciNaicsCde))(dynamicProfile.ciNaicsCde as String) else null) if( entityType == 'Organization'),
+        "taxIdentificationCode": dynamicProfile.ciCustTaxCde,
+        "taxIdentificationNumber":dynamicProfile.ciCustTaxNbr,
+        "restrictionCode": dynamicProfile.ciRstrcCde,
+        "primaryOfficerNumber": commonFunctions::officr(dynamicProfile.ciPrmyOffcrNbr),
+        "secondaryOfficerNumber": commonFunctions::officr(dynamicProfile.ciScndyOffcrNbr),
+       ("currentEmployerName": dynamicProfile.ciCustEmploymentSchool)if( entityType == 'Individual'),
+         ("customerCode": if (!isEmpty(dynamicProfile.ciCustCde1))dynamicProfile.ciCustCde1 as String {format:"000"} else null)if( entityType == 'Individual'),
+        ("occupationType": occupationCode)if( entityType == 'Individual'),
+     	("deathDate": if(dynamicProfile.ciCustDecdDte =="12/31/9999" or dynamicProfile.ciCustDecdDte == "12/31/3999" or dynamicProfile.ciCustDecdDte =="1/1/0001" or isEmpty(dynamicProfile.ciCustDecdDte)) "" else dynamicProfile.ciCustDecdDte as Date {format: "yyyy-MM-dd"}) if( entityType == 'Individual'),
+       "contactPoints":flatten([
+     {
+        "contactPointType": ["ContactPointAddress"],
+        "id": null,
+	   "activeFromDate": null,
+        "addressLine1": (addresscode map((addresscode) -> concatIfS(dynamicProfile[addresscode ++ "Cde"], dynamicProfile[addresscode ++ "Txt"])) reduce ((item, accumulator) -> (accumulator++ item)) )[0 to -2],
+        "addressLine2": (addresscode map((addresscode) -> concatIfA(dynamicProfile[addresscode ++ "Cde"], dynamicProfile[addresscode ++ "Txt"])) reduce ((item, accumulator) -> (accumulator++ item)) )[0 to -2],
+        "cityName": dynamicProfile.cty,
+        "postalCodeText": format_zip( dynamicProfile.zip ),
+        "stateProvinceName": dynamicProfile.st,
+        "countryName": dynamicProfile.ctryCde     
+      }] ++ 
+      ( if(!isEmpty(payload.Entity.customersDynamicProfileEmailAddress.customersDynamicProfileEmailAddressesLst)) [ 
+      	payload.Entity.customersDynamicProfileEmailAddress.customersDynamicProfileEmailAddressesLst map {
+          "contactPointType": ["ContactPointEmail"],
+          "id":null,
+          "activeFromDate": $.effDte,
+          "emailAddress": $.emailAddr,
+          "emailMailBox": $.resnCde
+      }] else []) ++ [
+      {
+        "contactPointType": ["ContactPointPhone"],
+        "id": null, 
+      	"activeFromDate": null,
+      	"primaryFlag": true,
+        "telephoneNumber": commonFunctions::phoneNumber(payload.Entity.customersDynamicProfile.ciPrmyPhNbr),
+      },
+      {
+        "contactPointType": ["ContactPointPhone"],
+        "id": null, 
+      	"activeFromDate": null,
+      	"primaryFlag": false,
+        "telephoneNumber": commonFunctions::phoneNumber(payload.Entity.customersDynamicProfile.ciScndyPh),
+      },
+      {
+        "contactPointType": ["ContactPointPhone"],
+        "id": null, 
+      	"activeFromDate": null,
+      	"primaryFlag": false,
+        "telephoneNumber": commonFunctions::phoneNumber(payload.Entity.customersDynamicProfile.ciMobilePhNbr),
+      }
+      ]),
+      ("PartyIdentification":{
+       "partyIdentificationType": dynamicProfile.cipidTyp1,
+       "identificationNumber": dynamicProfile.cipidNbr1,
+       "issuedByAuthority": dynamicProfile.cipidIssEnt1,
+       "issuedAtLocation": dynamicProfile.cipidIssLoc1,
+      ("expiryDate": (if(dynamicProfile.cipidExpDte1 =="1/1/0001" 
+ or dynamicProfile.cipidExpDte1=="12/31/39" or dynamicProfile.cipidExpDte1 =="12/31/9999" or isEmpty(dynamicProfile.cipidExpDte1)) "" else dynamicProfile.cipidExpDte1 as Date {format: "yyyy-MM-dd"}) )if(!isEmpty(dynamicProfile.cipidExpDte1))
+      }) if( entityType == 'Individual' and !(isEmpty(dynamicProfile.cipidTyp1)) and !(isEmpty(dynamicProfile.cipidNbr1))) },
+    "accounts":flatten([(payload.Entity.customersDynamicProfileRelatedAccountsLst filter $.ciRltApplCde1=="DP" and $.ciEnt1ToEnt2RltCde ==901) map {
+      "id":"Core" ++ "-" ++ $.ciRltApplCde1 ++ "-" ++ ($.dpAcctNbr as String {format:"00000000000"}) ,
+      "depositAccountType": if($.dpCategory=='D')"CHECKING" else if($.dpCategory=='N') "SAVINGS" else if($.dpCategory=='M')"MONEY_MARKET" else if($.dpCategory=='S')"SAVINGS"  else if($.dpCategory=='T')"SAVINGS" else if($.dpCategory=='C')"SAVINGS" else if($.dpCategory=='R')"MONEY_MARKET" else "",
+      "accountType": "DepositAccount",
+      "name": if($.dpCategory == "C") commonFunctions::buildCDAccountName($, 'dpStmtMrktNme') else $.dpCategoryDesc,
+      "accountNumber": $.dpAcctNbr as String {format:"00000000000"},
+      "primaryAccountOwner": vars.orgCustomerId,
+      "primaryAccountOwnerRelationshipRole": if (!isEmpty($.ciEnt2ToEnt1RltCde) and !isEmpty(vars.relationCodes[$.ciEnt2ToEnt1RltCde as String]))vars.relationCodes[$.ciEnt2ToEnt1RltCde as String] else null,
+      "productTypeCode": if(!isEmpty($.dpCategory) and !isEmpty($.dpAcctTyp)) ("D" ++ $.dpCategory ++ "_" ++ $.dpAcctTyp as String {format:"000"}) else null, 
+      "branchNumber": $.dpBrnch,
+      "openedDate": $.dpOpenDte,
+      "closedDate": if( isEmpty($.dpOpenInd) or $.dpOpenInd == "Z" ) null else $.dpClosDte,
+      "stage": if( isEmpty($.dpOpenInd) or $.dpOpenInd == "Z" ) "Active" else "Closed",
+      "status": $.dpDormInactvInd,
+      "primaryOfficerNumber": commonFunctions::officr($.dpPrmyOffcr),
+      "secondaryOfficerNumber": commonFunctions::officr($.dpScndyOffcr),
+      "accountBalance": $.dpLgrBal,
+      "totalHoldAmount": $.dpTotHldAmt,
+      "accuredInterest": $.dpAccrdIntCtd,
+      "currentInterestRate": if(!isEmpty($.dptdCurIntRte)) $.dptdCurIntRte  else $.dpIntStatedRte,
+      "lastContactDate": $.dpLstContDte,
+      "contactPoints": [
+            {
+                "contactPointType": ["ContactPointAddress"],
+                "id": null,
+                "activeFromDate": null,
+                "addressLine1": extractAddress($.depositAccountAddressLst).addressline[0],
+                "cityName": extractAddress($.depositAccountAddressLst).city[0],
+                "postalCodeText": extractAddress($.depositAccountAddressLst).postalCode[0],
+                "stateProvinceName": extractAddress($.depositAccountAddressLst).state[0]
+            },
+            {
+                 "contactPointType": ["ContactPointPhone"],
+        		"id": null, 
+      			"activeFromDate": null,
+      			"primaryFlag": true,
+       			 "telephoneNumber": extractAddress($.depositAccountAddressLst).homePhone[0]
+            },
+            {
+                 "contactPointType": ["ContactPointPhone"],
+        		"id": null, 
+      			"activeFromDate": null,
+      			"primaryFlag": false,
+       			 "telephoneNumber": extractAddress($.depositAccountAddressLst).bussinessPhone[0]
+            }
+            ],
+      "analysisTypeCode": $.dpAcctAnlysTypCde,
+      "nextMaturityDate": $.dptdNxtMat,
+      "costCenterNumber": $.dpCstCntr,
+      "interestPaidYearTodate": $.dpIntPdYTD,
+      "NSFAmountYearToDate": $.dpnsfIncomeYTD,
+      "originalBalance": $.dptdOrigDP,
+      "maturityTermCount": $.dptdTerm,
+      "maturityTermCode": $.dptdTermInd,
+      "isElectronicStatementDelivery": if($.electronicFeed == "Y") true else false,
+	  "lastTransactionDate": $.dpDteLstDP,
+	   "closureReason": 
+	   	 if($.dpOpenInd == "Z") "" // PEBOs business rules consider this as Open account (even though it's "Zero balance account." in FIS context) 
+	   	 else if($.dpOpenInd == "C") "Closed by customer." 
+	   	 else if($.dpOpenInd == "E") "Pending closed by customer." 
+	   	 else if($.dpOpenInd == "B") "Closed by bank." 
+	   	 else if($.dpOpenInd == "K") "Pending closed by bank." 
+	   	 else if($.dpOpenInd == "P") "Closed by processing." 
+	   	 else ""
+            },
+        ((payload.Entity.customersDynamicProfileRelatedAccountsLst filter $.ciRltApplCde1=="LN" and !isEmpty($.lnlnCat) and $.ciEnt1ToEnt2RltCde ==901)map{
+      "id":"Core" ++ "-" ++ $.ciRltApplCde1 ++ "-" ++ ($.lnAcctNbr  as String {format:"00000000000"}) ++ "-" ++ $.lnNoteNbr as String {format:"00000"} , 
+      "accountNumber": if(!isEmpty($.lnAcctNbr) and !isEmpty($.lnNoteNbr))($.lnAcctNbr as String {format:"00000000000"} ++ "-" ++ $.lnNoteNbr as String {format:"00000"}) else null,
+      "accountType": "LoanAccount",
+      "loanType": if($.lnlnCat=='C')"COMMERCIAL" else if($.lnlnCat=='I')"INSTALLMENT" else if($.lnlnCat=='M')"MORTGAGE" else if($.lnlnCat=='R')"REVOLVING" else "",
+      "name":  if (!isEmpty($.lnNoteTyp) and !isEmpty(vars.bankControlNote[$.lnNoteTyp as String]))vars.bankControlNote[$.lnNoteTyp as String] else null,
+      "primaryAccountOwner": vars.orgCustomerId,
+      "productTypeCode": if(!isEmpty($.lnlnCat) and !isEmpty($.lnNoteTyp))("L" ++ $.lnlnCat ++ "_" ++ $.lnNoteTyp as String {format:"000"}) else null,
+      "branchNumber": $.lnBrnchNbr,
+      "stage": $.pdInd,
+      "status": $.lnNteStatus,
+      "primaryOfficerNumber": commonFunctions::officr($.lnPrmyOffcr),
+      "secondaryOfficerNumber": commonFunctions::officr($.lnScndyOffcr),
+      "tertiaryOfficerNumber": commonFunctions::officr($.lnAcctThirdOfficer),
+      "accountBalance": if(!isEmpty($.lnNteCurBal)) ($.lnNteCurBal as Number as String) else null,	
+      "interestPaidYearTodate":$.intPdYTD,
+      "collateralDescription": $.lnCollDesc,
+      "escrowBalance": $.escrBal,
+      "loanTerm": $.lnTerm,
+      "paymentDueDate": $.nxtPmtDte,
+      "costCenterNumber": $.lnCstCntr, 
+      "billTypeCode": $.lnBillTyp,
+      "lastPaymentAmount": $.lstPmtAmt,
+      "lastPaymentDate": $.lstPmtDte,
+      "maturityDate": $.lnMatDte,
+     "originalBalance": $.lnOrigBal
+     
+}),
+((payload.Entity.customersDynamicProfileRelatedAccountsLst filter $.ciRltApplCde1=="LN" and $.lnCommitmentInd=="Y" and isEmpty($.lnlnCat) and $.ciEnt1ToEnt2RltCde ==901)map{
+	  "id": "Core" ++ "-" ++ "LTR"++ "-" ++ ($.lnAcctNbr as Number as String {format:"00000000000"}) ++ "-" ++ ($.lnCmmtNbr  default 1) as String {format:"000"},
+	  "accountType": "LetterOfCredit",
+      "name": "LETTER OF CREDIT",
+       "accountNumber":($.lnAcctNbr)as String {format:"00000000000"}  ++ "-" ++ ($.lnCmmtNbr  default 1) as String {format:"000"},
+      "primaryAccountOwner": vars.orgCustomerId,
+        "branchNumber": $.lnBrnchNbr,
+       "openedDate": $.lnAcctOpenDte ,
+       "primaryOfficerNumber": commonFunctions::officr($.lnPrmyOffcr),
+       "secondaryOfficerNumber": commonFunctions::officr($.lnScndyOffcr),
+       "tertiaryOfficerNumber": commonFunctions::officr($.lnAcctThirdOfficer),
+       "commitmentCurrentAmount": $.acctCrntBlnce
+		}),
+((payload.Entity.customersDynamicProfileRelatedAccountsLst filter $.ciRltApplCde1=="SB" and $.ciEnt1ToEnt2RltCde ==901)map{
+	 "id": "Core" ++ "-" ++ $.ciRltApplCde1 ++ "-" ++ ($.ciRltApplNbr01 replace " " with "") ++ "-" ++ vars.orgCustomerId,
+	 "accountType": "SafeDepositBox",
+	 "name": "Safe Deposit Box",
+	 "primaryAccountOwner":  vars.orgCustomerId,
+      "accountNumber": $.ciRltApplNbr01 replace " " with "",
+      "accountBalance": $.AcctBalAmt1
+		})
+		
+])
+    }
+    ]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
